@@ -1,0 +1,69 @@
+﻿<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="card">
+        <div class="card-header">
+            Sign up
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+                <div id="container" text-align="center" align="center" class="cursor-p">
+                    <div id="navi">
+                        <input class="navi-sty" type="file" name="Image" (change)="fileProgress($event)" />
+                    </div>
+                    <div id="infoi">
+                        <div class="image-preview mb-3" *ngIf="previewUrl">
+                            <img class="circular cursor-p" [src]="previewUrl" width="30" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput placeholder="FULL NAME" formControlName="FullName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.FullName.errors }">
+                    <div *ngIf="submitted && f.FullName.errors" class="invalid-feedback">
+                        <div *ngIf="f.FullName.errors.required">Full Name is required</div>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="email" placeholder="EMAIL" formControlName="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                    <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                        <div *ngIf="f.Email.errors.required">Email is required</div>
+                        <div *ngIf="f.Email.errors.email">Must be valid Email</div>
+                    </div>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="password" placeholder="PASSWORD" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                    <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                        <div *ngIf="f.Password.errors.required">Password is required</div>
+                    </div>
+                </mat-form-field>
+            </div>
+
+
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="BIRTHDAY" formControlName="DOB">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary" style="width: 100%;">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Create
+                </button>
+            </div>
+
+            <div>
+                <span>AlREADY HAVE AN ACCOUNT? </span>
+                <span><a routerLink="/login" class="btn btn-link">SIGN IN</a> </span>                    
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+<div class="card">
+    <div class="card-header">
+        Dashboard
+    </div>
+    <div class="card-body mh-280">
+        <div class="row">
+            <div class="col-sm-6" align="right">
+                <img class="circular-small cursor-p" [src]="currentUser.Image" width="30" />
+            </div>
+            <div class="col-sm-6 pad-0 fc-w" align="left">
+                <div class="fs-18">{{currentUser.FullName}}</div>
+                <div>{{currentUser.Email}}</div>
+                <div>
+                    <div class="navbar-nav mt30 fc-w">
+                        <a class="nav-item nav-link top-links" routerLink="/home">Home</a>
+                        <a class="nav-item nav-link top-links" routerLink="/event">Add New</a>
+                        <a class="nav-item nav-link top-links" (click)="logout()">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

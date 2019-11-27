@@ -1,0 +1,36 @@
+﻿<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="card">
+        <div class="card-header">
+            Sign in
+        </div>
+        <div class="card-body">            
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="email" placeholder="EMAIL" formControlName="Email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Email.errors }" />
+                    <div *ngIf="submitted && f.Email.errors" class="invalid-feedback">
+                        <div *ngIf="f.Email.errors.required">Email is required</div>
+                        <div *ngIf="f.Email.errors.email">Must be valid Email</div>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput type="password" placeholder="PASSWORD" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Password.errors }" />
+                    <div *ngIf="submitted && f.Password.errors" class="invalid-feedback">
+                        <div *ngIf="f.Password.errors.required">Password is required</div>
+                    </div>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-primary" style="width: 100%;">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Sign In
+                </button>
+            </div>
+            <div>
+                <span>DONOT HAVE AN ACCOUNT? </span>
+                <span><a routerLink="/register" class="btn btn-link">SIGN UP</a> </span>
+            </div>
+        </div>
+    </div>
+</form>

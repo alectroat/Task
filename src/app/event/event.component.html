@@ -1,0 +1,100 @@
+<form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-7 ta-pt-card">
+                    <span>CREATE NEW EVENT</span>
+                </div>
+                <div class="col-sm-5 ta-right">
+                    <a class="nav-item nav-link" routerLink="/">Dashboard</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body pad-0">
+            <div class="mh-25">
+                <div *ngIf="progressBar==true" class="progressBar" align="center">
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    <span class="font-black">Please Wait...</span>
+                </div>
+            </div>
+            
+            <div class="w100-p20 pad-0">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="TITLE" formControlName="Title" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Title.errors }">
+                        <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
+                            <div *ngIf="f.Title.errors.required">Full Name is required</div>
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="DESCRIPTION" formControlName="Description" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
+                        <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+                            <div *ngIf="f.Description.errors.required">Full Name is required</div>
+                        </div>
+                    </mat-form-field>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="DATE" formControlName="Date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3 ta-left">
+                        <span>FROM : </span>
+                    </div>
+                    <div class="col-sm-9">
+                        <ngb-timepicker formControlName="Start" [meridian]="true"></ngb-timepicker>
+                    </div>
+                </div>
+                <div class="row pt20-pb-20">
+                    <div class="col-sm-3 ta-left">
+                        <span>TO : </span>
+                    </div>
+                    <div class="col-sm-9">
+                        <ngb-timepicker formControlName="End" [meridian]="true"></ngb-timepicker>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput placeholder="LOCATION" formControlName="Location" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Location.errors }">
+                        <div *ngIf="submitted && f.Location.errors" class="invalid-feedback">
+                            <div *ngIf="f.Location.errors.required">Full Name is required</div>
+                        </div>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 ta-left">
+                        <mat-form-field>
+                            <input matInput placeholder="NOTIFY" formControlName="NotifyBefore" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.NotifyBefore.errors }">
+                            <div *ngIf="submitted && f.NotifyBefore.errors" class="invalid-feedback">
+                                <div *ngIf="f.NotifyBefore.errors.required">Full Name is required</div>
+                            </div>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-6">
+                        <select formControlName="NotificationMedium" class="browser-default custom-select">
+                            <option value="Email" selected>Email</option>
+                            <option value="SMS">SMS</option>
+                            <option value="CALL">CALL</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group pt20">
+                    <button [disabled]="loading" class="btn btn-primary w100">
+                        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                        Save
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</form>
+    

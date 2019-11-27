@@ -1,0 +1,53 @@
+﻿    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-sm-7 card-header-sty">
+                    <span>HOME</span>
+                </div>
+                <div class="col-sm-5 text-aln-right">
+                    <a class="nav-item nav-link" routerLink="/">Dashboard</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body card-body-aln">
+            <div *ngIf="progressBar==true" class="progressBar" align="center">
+                <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                <span class="font-black">Please Wait...</span>
+            </div>            
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 date-show-sty" *ngFor="let event of events">
+                        <div class="date-for-sty">{{event.DateStringFormat}}</div>
+                        <div class="col-xl-12 col-lg-12 date-itm-sty" *ngFor="let item of event.Events; let i = index">
+                            <div class="fs-12">{{item.Title}}</div>
+                            <div class="row pt-8 fs-10">
+                                <div class="col-sm-8" style="text-align: left">
+                                    <div class="row">
+                                        <div class="col-sm-7 ta-left">
+                                            <div><img class="img-time" [src]="timeIcon" />{{item.Start}}-{{item.End}}</div>
+                                        </div>
+                                        <div class="col-sm-5 ta-left">
+                                            <div><img class="img-location" [src]="locationIcon" />{{item.Location}}</div>
+                                        </div>
+                                    </div>                                        
+                                </div>
+                                <div class="col-sm-4 ta-right">                                    
+                                    <span>
+                                        <a class="nav-item top-links a-evn-edt" [routerLink]="['/event/edit']" [queryParams]="{id: item.EventId}">
+                                        <img class="act-icon-w" [src]="editIcon"/>
+                                        </a>
+                                    </span>
+                                    <span>|</span>
+                                    <span>
+                                        <a class="nav-item top-links a-evn-dlt" (click)="delete(item.EventId)">
+                                            <img class="act-icon-w" [src]="deleteIcon" />
+                                        </a>
+                                    </span>
+                                </div>
+                                </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
