@@ -2,6 +2,7 @@
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { apiConfig } from '@/_helpers';
 
 import { User } from '@/_models';
 
@@ -9,6 +10,10 @@ import { User } from '@/_models';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+
+    public host: apiConfig = new apiConfig;
+    public readonly endpoint = this.host.endpoint;
+    private readonly _loginUrl = this.endpoint + "api/Login/AuthenticUser";
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -20,8 +25,7 @@ export class AuthenticationService {
     }
     //Email:Email, Password:Password 
     login(Email, Password) {
-        var p={Email:Email, Password:Password };
-        return this.http.post<any>(`https://localhost:44362/api/Login/AuthenticUser`, p)
+        return this.http.post<any>(this._loginUrl, { Email: Email, Password: Password })
             .pipe(map(user => {
                 if (user.Data==null){
                     return [];
