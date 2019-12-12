@@ -21,6 +21,8 @@ namespace API_Project.Concrete
         }
         void IRegistrationRepository.NewRegistration(dynamic _User)
         {
+            DateTime? _dob= _User.DOB.ToString() == "" ? null : Convert.ToDateTime(_User.DOB.ToString());
+
             _Context.Users.Add(new User()
             {
                 UserId = Guid.NewGuid(),
@@ -28,7 +30,7 @@ namespace API_Project.Concrete
                 Email = _User.Email,
                 Password = _User.Password,
                 Image = _User.Image,
-                DOB = _User.DOB == "" ?null: _User.DOB
+                DOB = _dob 
             });
             _Context.SaveChanges();
         }
