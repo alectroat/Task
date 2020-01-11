@@ -2,9 +2,7 @@
 using API_Project.DAL;
 using API_Project.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace API_Project.Concrete
 {
@@ -19,20 +17,22 @@ namespace API_Project.Concrete
         {
             get { return _Context.Users; }
         }
-        void IRegistrationRepository.NewRegistration(dynamic _User)
+        User IRegistrationRepository.NewRegistration(User user)
         {
-            DateTime? _dob= _User.DOB.ToString() == "" ? null : Convert.ToDateTime(_User.DOB.ToString());
-
-            _Context.Users.Add(new User()
-            {
-                UserId = Guid.NewGuid(),
-                FullName = _User.FullName,
-                Email = _User.Email,
-                Password = _User.Password,
-                Image = _User.Image,
-                DOB = _dob 
-            });
+            _Context.Users.Add
+            (
+                new User()
+                {
+                    UserId = Guid.NewGuid(),
+                    FullName = user.FullName,
+                    Email = user.Email,
+                    Password = user.Password,
+                    Image = user.Image,
+                    DOB = user.DOB
+                }
+            );
             _Context.SaveChanges();
+            return user;
         }
         public void Dispose()
         {

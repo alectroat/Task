@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
             this.eventService.DeleteEventById(EventId, this.UserId)
                 .pipe(first())
                 .subscribe(res => {
-                    this.events = JSON.parse(JSON.parse(JSON.stringify(res)).Data);                   
+                    this.events = res.Data;                 
                 });
         }
         
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
         this.eventService.UserEvents(this.UserId)
             .pipe(first())
             .subscribe(res => {
-                this.events = JSON.parse(JSON.parse(JSON.stringify(res)).Data);
+                this.events = res.Data;
                 this.progressBar = false;
             });
     }

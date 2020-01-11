@@ -16,30 +16,26 @@ namespace API_Project.Controller
         private ILoginRepository repository;
         private Response _Response;
         public LoginController()
-        {
-            repository = new LoginRepository();
-            _Response = new Response();
+        {            
         }
         public LoginController(ILoginRepository loginRepository)
         {
             repository = loginRepository;
+            _Response = new Response();
         }
         [HttpPost]
-        public dynamic AuthenticUser(dynamic _User)
+        public IHttpActionResult AuthenticUser(User user)
         {            
             try
             {
-                _Response.Data = repository.AuthenticUser(_User);
-                _Response.Message = "Success";
-                _Response.Status = 1;
+                _Response.Data = repository.AuthenticUser(user);
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
     }
 }

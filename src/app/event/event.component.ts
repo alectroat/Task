@@ -74,7 +74,7 @@ export class EventComponent implements OnInit {
                 this.__id = params.id;
                 this.progressBar = true;
                 this.eventService.EventById(this.__id).subscribe(res => {
-                    var d = JSON.parse(JSON.parse(JSON.stringify(res)).Data);
+                    var d = res.Data;
                     console.log(d);
                     var SH = +d.Start.split(":")[0];
                     var SM = +d.Start.split(":")[1];

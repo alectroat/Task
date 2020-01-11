@@ -1,4 +1,5 @@
 ﻿using API_Project.Models;
+using API_Project.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,9 @@ namespace API_Project.Abstract
     public interface IEventRepository
     {
         IQueryable<Event> Events { get; }
-        dynamic AddEvent(dynamic _Event);
-        dynamic EditEvent(dynamic _Event);
-        dynamic DeleteEvent(dynamic _res);
-        dynamic GetEventById(dynamic _res);
-        dynamic UserEvents(dynamic _UserId);
+        Event SaveEvent(Event Event);
+        List<EventViewModel> DeleteEvent(Event res);
+        Event GetEventById(Guid EventId);
+        List<EventViewModel> UserEvents(Guid UserId);
     }
 }

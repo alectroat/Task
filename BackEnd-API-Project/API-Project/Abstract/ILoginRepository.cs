@@ -9,6 +9,6 @@ namespace API_Project.Abstract
     public interface ILoginRepository
     {
         IQueryable<User> Users { get; }
-        dynamic AuthenticUser(dynamic res);
+        User AuthenticUser(User user);
     }
 }

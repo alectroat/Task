@@ -19,12 +19,9 @@ namespace API_Project.Concrete
         {
             get { return _Context.Users; }
         }
-        dynamic ILoginRepository.AuthenticUser(dynamic res)
+        User ILoginRepository.AuthenticUser(User user)
         {
-            string Email = res.Email.ToString();
-            string Password = res.Password.ToString();
-            User result = _Context.Users.Where(p => p.Email == Email && p.Password == Password).FirstOrDefault<User>();
-            return result;
+            return _Context.Users.Where(p => p.Email == user.Email && p.Password == user.Password).FirstOrDefault<User>();            
         }
         public void Dispose()
         {

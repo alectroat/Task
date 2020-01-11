@@ -2,11 +2,9 @@
 using API_Project.DAL;
 using API_Project.Models;
 using API_Project.ViewModel;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace API_Project.Concrete
 {
@@ -21,20 +19,16 @@ namespace API_Project.Concrete
         {
             get { return _Context.Events; }
         }
-        dynamic IEventRepository.GetEventById(dynamic EventId)
+        Event IEventRepository.GetEventById(Guid EventId)
         {
-            Guid _EventId = new Guid(EventId.EventId.ToString());
-            Event _Event = _Context.Events.Where(p => p.EventId == _EventId)
-                                            .FirstOrDefault<Event>();
-            return JsonConvert.SerializeObject(_Event);
+            return _Context.Events.Where(p => p.EventId == EventId).FirstOrDefault<Event>();
         }
-        dynamic IEventRepository.UserEvents(dynamic UserId)
+        List<EventViewModel> IEventRepository.UserEvents(Guid UserId)
         {
-            Guid _UserId = new Guid(UserId.UserId.ToString());
             List<EventViewModel> eventList = new List<EventViewModel>();
             List<Event> events = new List<Event>();
 
-            events = _Context.Events.Where(p => p.UserId == _UserId)
+            events = _Context.Events.Where(p => p.UserId == UserId)
                                             .OrderByDescending(p => p.Start)
                                             .OrderByDescending(p => p.Date)
                                             .ToList<Event>();
@@ -42,78 +36,43 @@ namespace API_Project.Concrete
             {
                 groupByDate(eventList, e);
             }
-            return JsonConvert.SerializeObject(eventList);
+            return eventList;
         }
-        dynamic IEventRepository.AddEvent(dynamic _Event)
+        Event IEventRepository.SaveEvent(Event _event)
         {
-            TimeSpan Start = new TimeSpan(0, 0, 0);
-            TimeSpan End = new TimeSpan(0, 0, 0);
-            DateTime Date = DateTime.Now;
+            Event _record = new Event();            
 
-            try
+            if (_event.EventId == Guid.Empty)
             {
-                Start = new TimeSpan(Int32.Parse(_Event.Start.hour.ToString()), 
-                    Int32.Parse(_Event.Start.minute.ToString()), 0);
-                End = new TimeSpan(Int32.Parse(_Event.End.hour.ToString()), 
-                    Int32.Parse(_Event.End.minute.ToString()), 0);
-                Date = Convert.ToDateTime(_Event.Date.ToString());
+                _record.EventId = Guid.NewGuid();
+                _record.UserId = _event.UserId;
             }
-            catch (Exception) { }
-
-            _Context.Events.Add(new Event()
+            else
             {
-                EventId = Guid.NewGuid(),
-                UserId = new Guid(_Event.UserId.ToString()),
-                Title = _Event.Title,
-                Description = _Event.Description,
-                Date = Date.Date,
-                Start = Start,
-                End = End,
-                Location = _Event.Location,
-                NotifyBefore = _Event.NotifyBefore,
-                NotificationMedium = _Event.NotificationMedium
-            });
+                _record = _Context.Events.Find(_event.EventId);
+            }
+
+            _record.Title = _event.Title;
+            _record.Description = _event.Description;
+            _record.Date = _event.Date;
+            _record.Start = _event.Start;
+            _record.End = _event.End;
+            _record.Location = _event.Location;
+            _record.NotifyBefore = _event.NotifyBefore;
+            _record.NotificationMedium = _event.NotificationMedium;
+
+            if (_event.EventId == Guid.Empty)
+            {
+                _Context.Events.Add(_record);
+            }
             _Context.SaveChanges();
 
-            return null;
-        }
-        dynamic IEventRepository.EditEvent(dynamic _Event)
+            return _event;
+        }        
+        List<EventViewModel> IEventRepository.DeleteEvent(Event res)
         {
-            Guid EventId = new Guid(_Event.EventId.ToString());
-
-            TimeSpan Start = new TimeSpan(0, 0, 0);
-            TimeSpan End = new TimeSpan(0, 0, 0);
-            DateTime Date = DateTime.Now;
-
-            try
-            {
-                Start = new TimeSpan(Int32.Parse(_Event.Start.hour.ToString()), 
-                    Int32.Parse(_Event.Start.minute.ToString()), 0);
-                End = new TimeSpan(Int32.Parse(_Event.End.hour.ToString()), 
-                    Int32.Parse(_Event.End.minute.ToString()), 0);
-                Date = Convert.ToDateTime(_Event.Date.ToString());
-            }
-            catch (Exception) { }
-
-            Event _record = _Context.Events.Find(EventId);
-
-            _record.Title = _Event.Title;
-            _record.Description = _Event.Description;
-            _record.Date = Date.Date;
-            _record.Start = Start;
-            _record.End = End;
-            _record.Location = _Event.Location;
-            _record.NotifyBefore = _Event.NotifyBefore;
-            _record.NotificationMedium = _Event.NotificationMedium;
-
-            _Context.SaveChanges();
-
-            return null;
-        }
-        dynamic IEventRepository.DeleteEvent(dynamic res)
-        {
-            Guid EventId = new Guid(res.EventId.ToString());
-            Guid UserId = new Guid(res.UserId.ToString());
+            Guid EventId = res.EventId;
+            Guid UserId = res.UserId;
 
             List<EventViewModel> eventList = new List<EventViewModel>();
             List<Event> events = new List<Event>();
@@ -133,7 +92,7 @@ namespace API_Project.Concrete
             {
                 groupByDate(eventList, e);
             }
-            return JsonConvert.SerializeObject(eventList);
+            return eventList;
         }
         public void groupByDate(List<EventViewModel> eventList, Event eventObj)
         {

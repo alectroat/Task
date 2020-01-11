@@ -9,7 +9,7 @@ export class EventService {
     public host: apiConfig = new apiConfig;
 
     public readonly endpoint = this.host.endpoint;
-    private readonly _saveUrl = this.endpoint + "api/Event/CreateNewEvent";
+    private readonly _saveUrl = this.endpoint + "api/Event/SaveEvent";
     private readonly _UserEventsUrl = this.endpoint + "api/Event/UserEvents";
     private readonly _EventByIdUrl = this.endpoint + "api/Event/GetEventById"
     private readonly _DeleteEventByIdUrl = this.endpoint + "api/Event/DeleteEventById"
@@ -17,19 +17,31 @@ export class EventService {
     constructor(private http: HttpClient) { }
 
     UserEvents(UserId: string) {
-        return this.http.post<string>(this._UserEventsUrl, { UserId: UserId });
+        return this.http.post<any>(this._UserEventsUrl, { UserId: UserId });
     }
 
     EventById(EventId: any) {
-        return this.http.post<string>(this._EventByIdUrl, { EventId: EventId});
+        return this.http.post<any>(this._EventByIdUrl, { EventId: EventId});
     }
 
     DeleteEventById(EventId: any, UserId: string) {
-        return this.http.post<string>(this._DeleteEventByIdUrl, { EventId: EventId, UserId: UserId });
+        return this.http.post<any>(this._DeleteEventByIdUrl, { EventId: EventId, UserId: UserId });
     }    
 
     save(event: any) {
-        return this.http.post(this._saveUrl, event);
+        let _event = {
+            Title: event.Title,
+            Description: event.Description,
+            Date: event.Date,
+            Start: event.Start.hour + ":" + event.Start.minute + ":00",
+            End: event.End.hour + ":" + event.End.minute + ":00",
+            Location: event.Location,
+            NotifyBefore: event.NotifyBefore,
+            NotificationMedium: event.NotificationMedium,
+            UserId: event.UserId,
+            EventId: event.EventId,
+        };
+        return this.http.post(this._saveUrl, _event);
     }
 
     delete(id: number) {

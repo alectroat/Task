@@ -16,7 +16,7 @@ namespace API_Project
         protected void Application_Start(object sender, EventArgs e)
         {
             GlobalConfiguration.Configure(WebAPIConfig.Register);
-            ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
+            //ControllerBuilder.Current.SetControllerFactory(new NinjectResolver());
         }
 
         protected void Session_Start(object sender, EventArgs e)

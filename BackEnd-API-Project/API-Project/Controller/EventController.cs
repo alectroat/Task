@@ -19,92 +19,71 @@ namespace API_Project.Controller
         private Response _Response;
         public EventController()
         {
-            repository = new EventRepository();
-            _Response = new Response();
         }
         public EventController(IEventRepository eventRepository)
         {
             repository = eventRepository;
+            _Response = new Response();
         }
 
         [HttpPost]
-        public dynamic DeleteEventById(dynamic EventId)
+        public IHttpActionResult DeleteEventById(Event Event)
         {
             try
             {
-                _Response.Data = repository.DeleteEvent(EventId);
-                _Response.Message = "Success";
-                _Response.Status = 1;
+                _Response.Data = repository.DeleteEvent(Event);
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
 
         [HttpPost]
-        public dynamic GetEventById(dynamic EventId)
+        public IHttpActionResult GetEventById(Event Event)
         {
             try
             {
-                _Response.Data = repository.GetEventById(EventId);
-                _Response.Message = "Success";
-                _Response.Status = 1;
+                _Response.Data = repository.GetEventById(Event.EventId);
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
 
         [HttpPost]
-        public dynamic UserEvents(dynamic UserId)
+        public IHttpActionResult UserEvents(Event Event)
         {
             try
             {
-                _Response.Data = repository.UserEvents(UserId);
-                _Response.Message = "Success";
-                _Response.Status = 1;
+                _Response.Data = repository.UserEvents(Event.UserId);
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
 
         [HttpPost]
-        public dynamic CreateNewEvent(dynamic res)
+        public IHttpActionResult SaveEvent(Event res)
         {
-            string EventId = res.EventId.ToString();
             try
             {
-                if (res.EventId.ToString() == "")
-                {
-                    _Response.Data = repository.AddEvent(res);
-                }
-                else
-                {
-                    _Response.Data = repository.EditEvent(res);
-                }
-                _Response.Message = "Success";
-                _Response.Status = 1;
+                _Response.Data = repository.SaveEvent(res);
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
     }
 }

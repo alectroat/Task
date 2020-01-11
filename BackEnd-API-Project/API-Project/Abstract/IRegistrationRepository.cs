@@ -9,6 +9,6 @@ namespace API_Project.Abstract
     public interface IRegistrationRepository
     {
         IQueryable<User> Users { get; }
-        void NewRegistration(dynamic _User);
+        User NewRegistration(User _User);
     }
 }

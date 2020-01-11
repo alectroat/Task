@@ -17,31 +17,26 @@ namespace API_Project.Controller
         private IRegistrationRepository repository;
         private Response _Response;
         public RegisterController()
-        {
-            repository = new RegistrationRepository();
-            _Response = new Response();
+        {            
         }
         public RegisterController(IRegistrationRepository registrationRepository)
         {
             repository = registrationRepository;
+            _Response = new Response();
         }
         [HttpPost]
-        public dynamic NewRegistration(dynamic _User)
-        {
+        public IHttpActionResult NewRegistration(User _User)
+        {            
             try
-            {
-                repository.NewRegistration(_User);
-                _Response.Data = "";
-                _Response.Message = "Success";
-                _Response.Status = 0;
+            {                
+                _Response.Data = repository.NewRegistration(_User);                
             }
             catch (Exception ex)
             {
-                _Response.Data = null;
                 _Response.Message = ex.Message.ToString();
                 _Response.Status = 0;
             }
-            return _Response;
+            return Ok(_Response);
         }
     }
 }

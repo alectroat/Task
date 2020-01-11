@@ -1,8 +1,7 @@
 {
     "name": "angular-8",
     "version": "1.0.0",
-    "repository": {
-     },
+    "repository": {},
     "scripts": {
         "build": "webpack --mode production",
         "start": "webpack-dev-server --mode development --open"
